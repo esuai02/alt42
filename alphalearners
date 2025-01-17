@@ -1,0 +1,178 @@
+import React, { useState } from 'react';
+import { Card, CardContent } from '@/components/ui/card';
+
+const PersonalityTest = () => {
+  const [selectedTypes, setSelectedTypes] = useState([]);
+  const [hoveredType, setHoveredType] = useState(null);
+  const [ratings, setRatings] = useState({});
+  const [showAnalysis, setShowAnalysis] = useState(false);
+
+  const personalityTypes = [
+    {
+      id: 1,
+      name: "산만왕",
+      type: "OfftaskKid",
+      emoji: "🐒",
+      description: "수업 중 인터넷 서핑, 낙서, 멍 때리기, 딴생각 중… 수업과는 거리 먼 생활을 함.",
+      quote: "어? 지금 뭐 하고 있었더라?",
+      remedy: "휴대폰 멀리 두기 + 책상 정리하면 집중력이 올라갈지도?"
+    },
+    {
+      id: 2,
+      name: "반항두뇌",
+      type: "RebelliousBrain",
+      emoji: "😎",
+      description: "이거 왜 해야 돼요? 라며 수업과 맞서 싸우는 타입. 선생님의 말을 가끔 흘려들음.",
+      quote: "하기 싫어요. 그냥 싫어요!",
+      remedy: "이유를 알고 나면 덜 짜증날지도! 목표 정하기 도전!"
+    },
+    {
+      id: 3,
+      name: "핑계제조기",
+      type: "ExcuseMachine",
+      emoji: "🙃",
+      description: "숙제 안 한 이유, 문제 못 푼 이유가 100가지 나오는 마법의 입을 가짐.",
+      quote: "연필이 없었어요! / 강아지가 내 공책을 먹었어요!",
+      remedy: "차라리 솔직하게 '까먹었어요'라고 하자!"
+    }
+  ];
+
+  const handleTypeClick = (id) => {
+    setSelectedTypes((prev) =>
+      prev.includes(id) ? prev.filter((typeId) => typeId !== id) : [...prev, id]
+    );
+  };
+
+  const handleRatingChange = (id, newRating) => {
+    setRatings((prev) => ({
+      ...prev,
+      [id]: newRating,
+    }));
+  };
+
+  const handleShowAnalysis = () => {
+    setShowAnalysis(true);
+  };
+
+  const StarRating = ({ rating, onChange }) => {
+    const stars = [1, 2, 3, 4, 5];
+    return (
+      <div className="flex space-x-1">
+        {stars.map((star) => (
+          <svg
+            key={star}
+            onClick={(e) => {
+              e.stopPropagation();
+              onChange(star);
+            }}
+            xmlns="http://www.w3.org/2000/svg"
+            fill={star <= rating ? "gold" : "none"}
+            viewBox="0 0 24 24"
+            stroke="gold"
+            className="w-6 h-6 cursor-pointer"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={star <= rating ? 0 : 1.5}
+              d="M11.048 2.927c.3-.921 1.604-.921 1.902 0l1.562 4.787a1 1 0 00.95.69h5.042c.969 0 1.371 1.24.588 1.81l-4.077 2.958a1 1 0 00-.363 1.118l1.561 4.786c.3.921-.755 1.688-1.54 1.118l-4.078-2.958a1 1 0 00-1.175 0l-4.078 2.958c-.784.57-1.84-.197-1.54-1.118l1.562-4.786a1 1 0 00-.363-1.118L2.93 9.414c-.783-.57-.38-1.81.588-1.81h5.042a1 1 0 00.95-.69l1.562-4.787z"
+            />
+          </svg>
+        ))}
+      </div>
+    );
+  };
+
+  return (
+    <div className="max-w-6xl mx-auto p-4">
+      <div className="text-center mb-8">
+        <h1 className="text-4xl font-bold mb-4">📚 나의 수업 태도 유형은?</h1>
+        <p className="text-xl text-gray-600 mb-2">재미있는 집중력 유형 테스트!</p>
+        <p className="text-lg text-gray-500">
+          카드를 클릭해서 유형 상세를 확인하고 별점을 매겨보세요!
+        </p>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {personalityTypes.map((type) => {
+          const isSelected = selectedTypes.includes(type.id);
+          return (
+            <Card
+              key={type.id}
+              className={`cursor-pointer transition-all duration-200 hover:shadow-lg ${
+                isSelected ? "bg-blue-50 border-blue-500" : "bg-white"
+              }`}
+              onClick={() => handleTypeClick(type.id)}
+              onMouseEnter={() => setHoveredType(type.id)}
+              onMouseLeave={() => setHoveredType(null)}
+            >
+              <CardContent className="p-4">
+                <div className="text-4xl mb-2">{type.emoji}</div>
+                <h3 className="text-xl font-bold mb-1">{type.name}</h3>
+                <p className="text-sm text-gray-600">{type.type}</p>
+                <div
+                  className={`mt-2 transition-all duration-300 overflow-hidden ${
+                    (hoveredType === type.id || isSelected)
+                      ? "max-h-96 opacity-100"
+                      : "max-h-0 opacity-0"
+                  }`}
+                >
+                  <p className="text-sm mb-2">{type.description}</p>
+                  <p className="text-sm text-blue-600 italic">💭 {type.quote}</p>
+                  <p className="text-sm text-green-600 mt-2">💡 {type.remedy}</p>
+                  <div className="mt-3">
+                    <StarRating
+                      rating={ratings[type.id] || 0}
+                      onChange={(newRating) => handleRatingChange(type.id, newRating)}
+                    />
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          );
+        })}
+      </div>
+
+      <div className="text-center mt-8">
+        <button
+          onClick={handleShowAnalysis}
+          className="px-6 py-3 bg-blue-500 text-white rounded hover:bg-blue-600 transition-all"
+        >
+          분석 결과 제출
+        </button>
+      </div>
+
+      {showAnalysis && (
+        <div className="mt-8 p-6 bg-blue-50 rounded-lg shadow-md">
+          <h2 className="text-2xl font-bold mb-4">✨ 나의 분석 결과</h2>
+          <p className="text-sm text-gray-600 mb-4">
+            선택한 유형들과 그에 매긴 별점이 아래와 같습니다!
+          </p>
+
+          <div className="flex flex-col gap-2">
+            {Object.keys(ratings).map((typeId) => {
+              const idNum = parseInt(typeId, 10);
+              const matchingType = personalityTypes.find((t) => t.id === idNum);
+              if (!matchingType || ratings[typeId] < 1) return null;
+              return (
+                <div
+                  key={typeId}
+                  className="flex items-center justify-between bg-white p-3 rounded"
+                >
+                  <div>
+                    {matchingType.emoji} <span className="font-semibold">{matchingType.name}</span>
+                  </div>
+                  <div>
+                    별점: <strong>{ratings[typeId]} / 5</strong>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default PersonalityTest;
