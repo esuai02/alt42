@@ -2,6 +2,7 @@
 *.log
 *.tmp
 *.temp
+backup.log
 
 # 캐시 파일들
 *.cache
