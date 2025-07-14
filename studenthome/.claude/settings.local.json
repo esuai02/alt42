@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:mathking.kr)",
+      "Bash(node:*)",
+      "Bash(grep:*)"
+    ],
+    "deny": []
+  }
+}

@@ -1,0 +1,72 @@
+# 로그 파일들
+*.log
+*.tmp
+*.temp
+
+# 캐시 파일들
+*.cache
+/.cache
+
+# 환경 설정 파일들
+.env
+.env.local
+.env.production
+.env.test
+
+# OS 생성 파일들
+.DS_Store
+Thumbs.db
+
+# IDE 설정 파일들
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# PHP 관련
+vendor/
+composer.lock
+*.phar
+
+# Node.js 관련
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# 임시 파일들
+*.bak
+*.backup
+*~
+
+# 데이터베이스 파일들
+*.db
+*.sqlite
+*.sqlite3
+
+# 보안 관련 파일들
+config.php
+database.php
+*.key
+*.pem
+
+# 빌드 파일들
+dist/
+build/
+*.zip
+*.tar.gz
+*.tgz
+
+# 테스트 파일들
+test_*.php
+debug_*.php
+*.test.php
+
+# 업로드 파일들
+uploads/
+files/
+assets/uploads/
+
+# 세션 파일들
+tmp/
+sessions/ 

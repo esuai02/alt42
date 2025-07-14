@@ -1,0 +1,11 @@
+# Audio files
+audio/
+*.mp3
+*.wav
+
+# Config file with API keys
+config.php
+
+# Temporary files
+*.tmp
+*.log
